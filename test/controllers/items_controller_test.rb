@@ -38,12 +38,15 @@ class ItemsControllerTest < ActionController::TestCase
   test '#update' do
     old_item = Item.create(name: "Hillary", description: "You've got mail")
 
-    patch :update, format: :json, id: old_item.id, item: { name: "Bernie", description: "feel the Bern" }
+    patch :update, format: :json, id: old_item.id, item: { name: "Bernie", description: "Feel the Bern" }
 
-    # item = JSON.parse(response.body, symbolize_names: true)
+    item = Item.find(old_item.id)
 
     assert_response :success
-    # assert_equal "Jim", item[:name]
-    # assert_equal "this description", item[:description]
+    assert_equal "Hillary", old_item[:name]
+    assert_equal "You've got mail", old_item[:description]
+
+    assert_equal "Bernie", item[:name]
+    assert_equal "Feel the Bern", item[:description]
   end
 end
